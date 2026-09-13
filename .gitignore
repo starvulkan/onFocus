@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# VITE_ variables get inlined into the bundle, and are public once deployed.
+.env
