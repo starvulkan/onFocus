@@ -1,8 +1,14 @@
-# onFocus
+<p align="center">
+    <img src="docs/banner.png" alt="onFocus" width="820">
+</p>
 
-A new tab page that keeps score of your work sessions and helps your mind get onFocus!
+<p align="center">
+    A new tab page that keeps score of your work sessions and helps your mind get onFocus!
+</p>
 
-**[Live demo →](https://starvulkan.github.io/onFocus/)**
+<p align="center">
+    <a href="https://starvulkan.github.io/onFocus/"><b>Live demo →</b></a>
+</p>
 
 ## The idea
 
