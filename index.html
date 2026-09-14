@@ -7,7 +7,26 @@
     <title>onFocus</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="aurora" aria-hidden="true">
+      <span class="blob blob--1"></span>
+      <span class="blob blob--2"></span>
+      <span class="blob blob--3"></span>
+    </div>
+
+    <div id="app">
+      <div class="zone zone--tl" id="zone-tl"></div>
+      <div class="zone zone--tr" id="zone-tr"></div>
+
+      <main class="stage">
+        <img class="lockup" src="./lockup-white.png" alt="onFocus" width="400" />
+        <p class="greeting" id="greeting"></p>
+        <p class="clock" id="clock">--:--</p>
+        <div class="intent-slot" id="intent-slot"></div>
+      </main>
+
+      <div class="zone zone--bl" id="zone-bl"></div>
+      <div class="zone zone--br" id="zone-br"></div>
+    </div>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
