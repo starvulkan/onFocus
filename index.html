@@ -18,15 +18,70 @@
       <div class="zone zone--tr" id="zone-tr"></div>
 
       <main class="stage">
+        <form class="search" id="search" role="search">
+          <svg class="search__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M16.5 16.5 21 21" />
+          </svg>
+          <input
+            class="search__input"
+            id="search-input"
+            type="search"
+            placeholder="Search the web"
+            autocomplete="off"
+            aria-label="Search the web"
+          />
+        </form>
+
         <img class="lockup" src="./lockup-white.png" alt="onFocus" width="400" />
         <p class="greeting" id="greeting"></p>
         <p class="clock" id="clock">--:--</p>
-        <div class="intent-slot" id="intent-slot"></div>
+
+        <div class="focus">
+          <input
+            class="intent"
+            id="intent"
+            type="text"
+            placeholder="What are you working on?"
+            maxlength="80"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <div class="controls">
+            <label class="duration" id="duration-wrap">
+              <input
+                class="duration__input"
+                id="duration"
+                type="number"
+                min="1"
+                max="180"
+                step="1"
+                value="25"
+                aria-label="Session length in minutes"
+              />
+              <span class="duration__unit">min</span>
+            </label>
+            <button class="btn btn--primary" id="btn-primary" type="button">Start focus</button>
+            <button class="btn" id="btn-secondary" type="button" hidden>Give up</button>
+          </div>
+        </div>
       </main>
 
-      <div class="zone zone--bl" id="zone-bl"></div>
+      <div class="zone zone--bl" id="zone-bl">
+        <button class="btn btn--ghost" id="history-open" type="button">History</button>
+      </div>
       <div class="zone zone--br" id="zone-br"></div>
+        <p class="card stats" id="stats" hidden></p>
     </div>
+    <dialog class="history" id="history">
+      <div class="history__head">
+        <h2 class="history__title">Focus history</h2>
+        <button class="btn btn--ghost" id="history-close" type="button">Close</button>
+      </div>
+      <p class="history__summary" id="history-summary"></p>
+      <div class="history__list" id="history-list"></div>
+    </dialog>
+
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>

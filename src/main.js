@@ -1,7 +1,9 @@
 import '@fontsource/comfortaa/latin-400.css'
 import '@fontsource/comfortaa/latin-700.css'
 import './style.css'
-import * as storage from './storage.js'
+import { mount } from './focus.js'
+import * as search from './search.js'
+import * as history from './history.js'
 
 const greetingEl = document.querySelector('#greeting')
 const clockEl = document.querySelector('#clock')
@@ -13,37 +15,46 @@ function greetingFor(hour) {
     return 'Good evening!'
 }
 
-function renderClock() {
-    const now = new Date()
-    clockEl.textContent = now.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-    })
-    greetingEl.textContent = greetingFor(now.getHours())
+function wallClock() {
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
-/*
-Tick on the second the minute changes rather than every second. 
-A new tab can sit open for hours, and a "once per second" tick is unnecessary and wasteful.
-*/
+const init = mount({
+  clockEl,
+  intentEl: document.querySelector('#intent'),
+  primaryEl: document.querySelector('#btn-primary'),
+  secondaryEl: document.querySelector('#btn-secondary'),
+  statsEl: document.querySelector('#stats'),
+  durationEl: document.querySelector('#duration'),
+  durationWrapEl: document.querySelector('#duration-wrap'),
+  wallClock,
+})
+
+function renderGreeting() {
+    greetingEl.textContent = greetingFor(new Date().getHours())
+}
+
 function scheduleNextTick() {
     const now = new Date()
-    const msToNextMinute =
-        (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
     setTimeout(() => {
-        renderClock()
-        scheduleNextTick()
-    }, msToNextMinute)
-}  
+        renderGreeting()
+        if (!clockEl.classList.contains('clock--session')) clockEl.textContent = wallClock()
+    scheduleNextTick()
+  }, (60 - now.getSeconds()) * 1000 - now.getMilliseconds())
+}
 
-renderClock()
-scheduleNextTick()
+search.mount(document.querySelector('#search'), document.querySelector('#search-input'))
 
-/*
-Smoke test for the storage layer:
-prove it round-trips in whichever target we're running in.
-*/
-storage.get('opened', 0).then((count) => {
-    storage.set('opened', count + 1)
-    console.log(`onFocus opened ${count + 1} time(s)`)
+history.mount({
+  openEl: document.querySelector('#history-open'),
+  dialogEl: document.querySelector('#history'),
+  closeEl: document.querySelector('#history-close'),
+  listEl: document.querySelector('#history-list'),
+  summaryEl: document.querySelector('#history-summary'),
 })
+document.querySelector('#search-input').focus()
+
+renderGreeting()
+clockEl.textContent = wallClock()
+scheduleNextTick()
+init()
