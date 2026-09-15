@@ -31,13 +31,13 @@ Working now:
 - Clock and time-aware greeting
 - A saved-data layer that works in both versions
 - Full visual identity: logo, palette, animated aurora background
+- Daily focus, Pomodoro timer
+- History: streaks, total time focused
 
 Still to come:
 
 - NASA picture of the day, with a toggle between the aurora and the photo
 - Weather
-- Daily focus, Pomodoro timer, task list
-- History: streaks, total time focused, a seven-day chart
 - Themes, settings, keyboard shortcuts
 
 <p align="center">
