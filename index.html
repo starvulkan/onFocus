@@ -7,7 +7,10 @@
     <title>onFocus</title>
   </head>
   <body>
-    <div class="aurora" aria-hidden="true">
+    <div class="photo" id="photo" aria-hidden="true" hidden></div>
+    <div class="scrim" id="scrim" aria-hidden="true" hidden></div>
+
+    <div class="aurora" id="aurora" aria-hidden="true">
       <span class="blob blob--1"></span>
       <span class="blob blob--2"></span>
       <span class="blob blob--3"></span>
@@ -15,7 +18,9 @@
 
     <div id="app">
       <div class="zone zone--tl" id="zone-tl"></div>
-      <div class="zone zone--tr" id="zone-tr"></div>
+      <div class="zone zone--tr" id="zone-tr">
+        <p class="photo-credit" id="photo-credit" hidden></p>
+      </div>
 
       <main class="stage">
         <form class="search" id="search" role="search">
@@ -69,10 +74,13 @@
 
       <div class="zone zone--bl" id="zone-bl">
         <button class="btn btn--ghost" id="history-open" type="button">History</button>
+        <button class="btn btn--ghost" id="settings-open" type="button">Settings</button>
       </div>
-      <div class="zone zone--br" id="zone-br"></div>
+      <div class="zone zone--br" id="zone-br">
         <p class="card stats" id="stats" hidden></p>
+      </div>
     </div>
+
     <dialog class="history" id="history">
       <div class="history__head">
         <h2 class="history__title">Focus history</h2>
@@ -80,6 +88,53 @@
       </div>
       <p class="history__summary" id="history-summary"></p>
       <div class="history__list" id="history-list"></div>
+    </dialog>
+
+    <dialog class="sheet" id="settings">
+      <div class="sheet__head">
+        <h2 class="sheet__title">Settings</h2>
+        <button class="btn btn--ghost" id="settings-close" type="button">Close</button>
+      </div>
+
+      <div class="sheet__row">
+        <label class="sheet__label" for="setting-bg">Background</label>
+        <select class="field" id="setting-bg">
+          <option value="aurora">Aurora Blobs</option>
+          <option value="apod">NASA APOD</option>
+        </select>
+      </div>
+
+      <div class="sheet__row" id="setting-scrim-row" hidden>
+        <label class="sheet__label" for="setting-scrim">
+          Dimming <span class="sheet__value" id="setting-scrim-value">62%</span>
+        </label>
+        <input class="field" id="setting-scrim" type="range" min="0" max="100" step="1" value="62" />
+      </div>
+
+      <div class="sheet__row">
+        <label class="sheet__label" for="setting-engine">Search engine</label>
+        <select class="field" id="setting-engine">
+          <option value="duckygo">DuckDuckGo</option>
+          <option value="google">Google</option>
+          <option value="bing">Bing</option>
+          <option value="brave">Brave</option>
+          <option value="ecosia">Ecosia</option>
+          <option value="startpage">Startpage</option>
+        </select>
+      </div>
+
+      <div class="sheet__row">
+        <label class="sheet__label" for="settings-custom">Custom search URL</label>
+        <input
+          class="field"
+          id="setting-custom"
+          type="text"
+          placeholder="https://example.com/search?q=%s"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <p class="sheet__hint">Must contain <code>%s</code> where the query goes. Else no searching for u...</p>
+      </div>
     </dialog>
 
     <script type="module" src="./src/main.js"></script>

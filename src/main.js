@@ -4,6 +4,8 @@ import './style.css'
 import { mount } from './focus.js'
 import * as search from './search.js'
 import * as history from './history.js'
+import * as background from './background.js'
+import * as settings from './settings.js'
 
 const greetingEl = document.querySelector('#greeting')
 const clockEl = document.querySelector('#clock')
@@ -53,9 +55,34 @@ history.mount({
   listEl: document.querySelector('#history-list'),
   summaryEl: document.querySelector('#history-summary'),
 })
+
+const applyBackground = background.mount({
+  photoEl: document.querySelector('#photo'),
+  scrimEl: document.querySelector('#scrim'),
+  auroraEl: document.querySelector('#aurora'),
+  creditEl: document.querySelector('#photo-credit'),
+})
+
+settings.mount({
+  openEl: document.querySelector('#settings-open'),
+  dialogEl: document.querySelector('#settings'),
+  closeEl: document.querySelector('#settings-close'),
+  bgEl: document.querySelector('#setting-bg'),
+  scrimRowEl: document.querySelector('#setting-scrim-row'),
+  scrimEl: document.querySelector('#setting-scrim'),
+  scrimValueEl: document.querySelector('#setting-scrim-value'),
+  engineEl: document.querySelector('#setting-engine'),
+  customEl: document.querySelector('#setting-custom'),
+  applyBackground,
+})
+
 document.querySelector('#search-input').focus()
 
 renderGreeting()
 clockEl.textContent = wallClock()
 scheduleNextTick()
 init()
+
+
+// the photo is a progressive upgrade rather than something the first paint waits on.
+applyBackground()

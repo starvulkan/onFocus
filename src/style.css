@@ -12,6 +12,7 @@
     --neon-mint: #7FD1AE;
 
     --glow-strength: 0.55;
+    --scrim-strength: 0.62;
 
     --space-1: 0.5rem;
     --space-2: 1rem;
@@ -341,11 +342,16 @@ so it should look different from the wall time it replaced!
 }
 
 .search:focus-within .search__icon { stroke: var(--neon-mint); }
+
 /* ---- Session length -------------------------------------------------- */
 
-/* An author `display` beats the browser's built-in [hidden] rule, so the
-   hidden attribute silently stops working unless we say so explicitly. */
 .duration[hidden] { display: none; }
+.stats[hidden],
+.photo[hidden],
+.scrim[hidden],
+.aurora[hidden],
+.photo-credit[hidden],
+.sheet__row[hidden] { display: none; }
 
 .duration {
     display: inline-flex;
@@ -368,7 +374,6 @@ so it should look different from the wall time it replaced!
     background: none;
     border: none;
     outline: none;
-    /* the spinner arrows are tiny, ugly, and wrong for a pill this size */
     -moz-appearance: textfield;
 }
 
@@ -456,3 +461,125 @@ so it should look different from the wall time it replaced!
 .history__time { color: var(--muted); font-size: 0.85rem; }
 .history__intent { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .history__mins { color: var(--neon-mint); font-weight: 700; }
+
+/* ----------- Photo backdrop ------------------------------------------------ */
+
+.photo {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+/* photos be random, so they can really mess up the text on-screen. so it needs a floor! */
+.scrim {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+        radial-gradient(
+        ellipse 70% 55% at 50% 48%,
+        rgb(0 0 0 / calc(var(--scrim-strength) * 0.95)) 0%,
+        rgb(0 0 0 / calc(var(--scrim-strength) * 0.45)) 55%,
+        rgb(0 0 0 / 0) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(0 0 0 / calc(var(--scrim-strength) * 0.7)) 0%,
+        rgb(0 0 0 / calc(var(--scrim-strength) * 0.2)) 35%,
+        rgb(0 0 0 / calc(var(--scrim-strength) * 0.2)) 65%,
+        rgb(0 0 0 / calc(var(--scrim-strength) * 0.7)) 100%
+      );
+}
+
+.photo-credit {
+    margin: 0;
+    max-width: 40ch;
+    text-align: right;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    color: color-mix(in srgb, var(--fg) 72%, transparent);
+    text-shadow: 0 1px 3px rgb(0 0 0 / 0.6);
+}
+
+.photo-credit__title { font-weight: 700; }
+.photo-credit__by { color: var(--muted); font-size: 0.75rem; }
+
+/* ----------- Settings sheet ------------------------------------------------ */
+
+.sheet {
+    width: min(28rem, 92vw);
+    padding: var(--space-3);
+    border: 1px solid color-mix(in srgb, var(--neon-mint) 22%, var(--border));
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter: blur(16px);
+    color: var(--fg);
+    font-family: var(--font);
+}
+
+.sheet::backdrop { background: rgb(0 0 0 / 0.55); backdrop-filter: blur(3px); }
+
+.sheet__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+}
+
+.sheet__title { margin: 0; font-size: var(--step-1); font-weight: 700; }
+
+.sheet__row { margin-bottom: var(--space-3); }
+.sheet__row:last-child { margin-bottom: 0; }
+
+.sheet__label {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.sheet__value { color: var(--accent); font-weight: 700; }
+
+.sheet__hint {
+    margin: var(--space-1) 0 0;
+    color: var(--muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.sheet_hint code {
+    padding: 0.1em 0.35em;
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--neon-mint) 14%, transparent);
+    font-size: 0.95em;
+}
+
+.field {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: var(--step-0);
+}
+
+.field:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--neon-mint) 60%, transparent);
+    outline-offset: 2px;
+}
+
+.field[type="range"] {
+    padding: 0;
+    border: none;
+    background: none;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
