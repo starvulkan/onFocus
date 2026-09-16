@@ -87,6 +87,7 @@ export async function render(listEl, summaryEl) {
         Object.assign(document.createElement('span'), {
           className: 'history__mins', textContent: `${s.minutes}m`,
         }),
+        del,
       )
       listEl.append(row)
     }
