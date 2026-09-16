@@ -30,6 +30,26 @@ export async function record({ minutes, intent = '', at = Date.now() }) {
     return entry
 }
 
+export async function remove(at) {
+    const list = await all()
+    const index = list.findIndex((s) => s.at === at)
+    if (index === -1) return null
+    const [removed] = list.splice(index, 1)
+    await storage.set(KEY, list)
+    return removed
+}
+
+export async function restore(entry) {
+    if (!entry || !Number.isFinite(entry.at)) return false
+    const list = await all()
+    if (list.some((s) => s.at === entry.at)) return false
+    list.push(entry)
+
+    list.sort((a, b) => a.at - b.at)
+    await storage.set(KEY, list.slice(-MAX))
+    return true
+}
+
 export async function minutesOn(day = dayKey()) {
     const list = await all()
     return list.reduce((sum, s) => (s.day === day ? sum + s.minutes : sum), 0)

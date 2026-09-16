@@ -4,10 +4,12 @@ import * as timer from './timer.js'
 import * as sessions from './sessions.js'
 
 const KEY = 'timer'
+const DRAFT_KEY = 'intentDraft'
 
 export function mount({ clockEl, intentEl, primaryEl, secondaryEl, statsEl, durationEl, durationWrapEl, wallClock }) {
     let state = timer.idle()
     let ticking = null
+    let draftTimer = null
 
     async function save() {
         await storage.set(KEY, state)
@@ -137,13 +139,20 @@ export function mount({ clockEl, intentEl, primaryEl, secondaryEl, statsEl, dura
     if (event.key === 'Enter' && state.status === 'idle') primaryEl.click()
   })
 
-  return async function init() {
+  intentEl.addEventListener('input', () => {
+    if (state.status !== 'idle') return
+    clearTimeout(draftTimer)
+    draftTimer = setTimeout(() => storage.set(DRAFT_KEY, intentEl.value), 400)
+  })
+
+  async function init() {
     const saved = await storage.get(KEY, null)
     if (saved && saved.status) state = saved
 
     if (state.status === 'idle') {
       const mins = await storage.get('duration', timer.DEFAULT_MINUTES)
       state = { ...state, durationMs: mins * 60_000 }
+      intentEl.value = (await storage.get(DRAFT_KEY, '')) || ''
     }
 
     if (timer.hasFinished(state)) {
@@ -154,5 +163,6 @@ export function mount({ clockEl, intentEl, primaryEl, secondaryEl, statsEl, dura
       await renderStats()  
     }
   }
+  return { init, refreshStats: renderStats }
 
 }

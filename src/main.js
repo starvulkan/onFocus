@@ -22,7 +22,7 @@ function wallClock() {
     return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
-const init = mount({
+const focus = mount({
   clockEl,
   intentEl: document.querySelector('#intent'),
   primaryEl: document.querySelector('#btn-primary'),
@@ -54,6 +54,10 @@ history.mount({
   closeEl: document.querySelector('#history-close'),
   listEl: document.querySelector('#history-list'),
   summaryEl: document.querySelector('#history-summary'),
+  undoEl: document.querySelector('#history-undo'),
+  undoTextEl: document.querySelector('#history-undo-text'),
+  undoBtnEl: document.querySelector('#history-undo-btn'),
+  onChange: () => focus.refreshStats(),
 })
 
 const applyBackground = background.mount({
@@ -81,7 +85,7 @@ document.querySelector('#search-input').focus()
 renderGreeting()
 clockEl.textContent = wallClock()
 scheduleNextTick()
-init()
+focus.init()
 
 
 // the photo is a progressive upgrade rather than something the first paint waits on.

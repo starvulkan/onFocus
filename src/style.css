@@ -451,7 +451,7 @@ so it should look different from the wall time it replaced!
 
 .history__row {
     display: grid;
-    grid-template-columns: 4.6rem 1fr auto;
+    grid-template-columns: 4.6rem 1fr auto 1.55rem;
     gap: var(--space-1);
     align-items: baseline;
     padding: 0.45rem 0;
@@ -461,6 +461,51 @@ so it should look different from the wall time it replaced!
 .history__time { color: var(--muted); font-size: 0.85rem; }
 .history__intent { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .history__mins { color: var(--neon-mint); font-weight: 700; }
+
+.history__delete {
+    width: 1.55rem;
+    height: 1.55rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 1.05rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 120ms ease, background 120ms ease, color 120ms ease;
+}
+
+.history__row:hover .history__delete,
+.history__row:focus-within .history__delete { opacity: 1; }
+
+.history__delete:hover,
+.history__delete:focus-visible {
+    opacity: 1;
+    background: color-mix(in srgb, #FF6B6B 22%, transparent);
+    color: #FF9B9B;
+}
+
+@media (hover: none) {
+    .history__delete { opacity: 1; }
+}
+
+.history__undo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0.6rem var(--space-2);
+    border-top: 1px solid var(--border);
+    background: color-mix(in srgb, var(--neon-mint) 8%, transparent);
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.history__undo[hidden] { display: none; }
 
 /* ----------- Photo backdrop ------------------------------------------------ */
 

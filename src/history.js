@@ -1,7 +1,4 @@
 // The session history panel.
-//
-// Rendered from the same session array everything else derives from, so
-// there is nothing extra to keep in sync — open it and it is current.
 
 import * as sessions from './sessions.js'
 
@@ -67,6 +64,16 @@ export async function render(listEl, summaryEl) {
     for (const s of entries) {
       const row = document.createElement('div')
       row.className = 'history__row'
+
+      const label = s.intent || 'Untitled session'
+      const del = document.createElement('button')
+      del.className = 'history__delete'
+      del.type = "button"
+      del.textContent = '\u00D7'
+      
+      del.setAttribute('aria-label', `Delete ${label} at ${fmtTime(s.at)}`)
+      del.dataset.at = String(s.at)
+
       // textContent throughout: the intent is text the user typed, and it
       // must never be parsed as markup.
       row.append(
@@ -86,14 +93,53 @@ export async function render(listEl, summaryEl) {
   }
 }
 
-export function mount({ openEl, dialogEl, closeEl, listEl, summaryEl }) {
+export function mount({ 
+  openEl, dialogEl, closeEl, listEl, summaryEl,
+  undoEl, undoTextEl, undoBtnEl,
+  onChange = () => {},
+}) {
+  let lastDeleted = null
+
+  function hideUndo() {
+    lastDeleted = null
+    undoEl.hidden = true
+  }
+
+  async function refresh() {
+    await render(listEl, summaryEl)
+    await onChange()
+  }
+
   openEl.addEventListener('click', async () => {
+    hideUndo()
     await render(listEl, summaryEl)
     dialogEl.showModal()
   })
+
   closeEl.addEventListener('click', () => dialogEl.close())
   dialogEl.addEventListener('click', (event) => {
     // click the backdrop (the dialog element itself) to dismiss
     if (event.target === dialogEl) dialogEl.close()
   })
+  dialogEl.addEventListener('close', hideUndo)
+
+  listEl.addEventListener('click', async (event) => {
+    const btn = event.target.closest('.history__delete')
+    if (!btn) return
+    const removed = await sessions.remove(Number(btn.dataset.at))
+    if (!removed) return
+    lastDeleted = removed
+    undoTextEl.textContent = `Removed "${removed.intent || 'Untitled session'}"`
+    undoEl.hidden = false
+    await refresh()
+  })
+
+  undoBtnEl.addEventListener('click', async () => {
+    if (!lastDeleted) return
+    await sessions.restore(lastDeleted)
+    hideUndo()
+    await refresh()
+  })
+
+  return refresh
 }
