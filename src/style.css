@@ -628,3 +628,74 @@ so it should look different from the wall time it replaced!
     accent-color: var(--accent);
     cursor: pointer;
 }
+/* ----------- Weather ------------------------------------------------ */
+
+.weather {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: color-mix(in srgb, var(--fg) 80%, transparent);
+    font-size: 0.9rem;
+    text-shadow: 0 1px 3px rgb(0 0 0 / 0.55);
+}
+
+.weather[hidden] { display: none; }
+
+.weather__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: var(--neon-mint);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.weather__temp { font-weight: 700; color: var(--fg); }
+.weather__label { color: var(--muted); }
+
+.sheet__inline { display: flex; gap: var(--space-1); align-items: stretch; }
+.sheet__inline .field { flex: 1; min-width: 0; }
+.sheet__inline .btn { white-space: nowrap; }
+
+.sheet__current {
+    margin: 0 0 var(--space-1);
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.sheet__current[hidden] { display: none; }
+
+.sheet__results {
+    margin-top: var(--space-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.sheet__results[hidden] { display: none; }
+
+.sheet__result {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    background: none;
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 0.85rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sheet__result:last-child { border-bottom: none; }
+
+.sheet__result:hover,
+.sheet__result:focus-visible {
+    background: color-mix(in srgb, var(--neon-mint) 14%, transparent);
+    outline: none;
+}
+
+.sheet__hint[hidden] { display: none; }

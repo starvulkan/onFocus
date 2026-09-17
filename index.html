@@ -17,7 +17,9 @@
     </div>
 
     <div id="app">
-      <div class="zone zone--tl" id="zone-tl"></div>
+      <div class="zone zone--tl" id="zone-tl">
+        <div class="weather" id="weather" hidden></div>
+      </div>
       <div class="zone zone--tr" id="zone-tr">
         <p class="photo-credit" id="photo-credit" hidden></p>
       </div>
@@ -113,6 +115,32 @@
           Dimming <span class="sheet__value" id="setting-scrim-value">62%</span>
         </label>
         <input class="field" id="setting-scrim" type="range" min="0" max="100" step="1" value="62" />
+      </div>
+
+      <div class="sheet__row">
+        <label class="sheet__label" for="setting-city">Weather location</label>
+        <p class="sheet__current" id="setting-place" hidden></p>
+        <div class="sheet__inline">
+          <input
+            class="field"
+            id="setting-city"
+            type="text"
+            placeholder="Search a city"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="btn btn--ghost" id="setting-locate" type="button">Use my location</button>
+        </div>
+        <div class="sheet__results" id="setting-city-results" hidden></div>
+        <p class="sheet__hint" id="setting-city-hint" hidden></p>
+      </div>
+
+      <div class="sheet__row" id="setting-unit-row" hidden>
+        <label class="sheet__label" for="setting-unit">Temperature</label>
+        <select class="field" id="setting-unit">
+          <option value="c">Celsius (°C)</option>
+          <option value="f">Fahrenheit (°F)</option>
+        </select>
       </div>
 
       <div class="sheet__row">

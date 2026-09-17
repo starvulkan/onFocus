@@ -6,6 +6,7 @@ import * as search from './search.js'
 import * as history from './history.js'
 import * as background from './background.js'
 import * as settings from './settings.js'
+import * as weather from './weather.js'
 
 const greetingEl = document.querySelector('#greeting')
 const clockEl = document.querySelector('#clock')
@@ -67,6 +68,8 @@ const applyBackground = background.mount({
   creditEl: document.querySelector('#photo-credit'),
 })
 
+const refreshWeather = weather.mount(document.querySelector('#weather'))
+
 settings.mount({
   openEl: document.querySelector('#settings-open'),
   dialogEl: document.querySelector('#settings'),
@@ -77,7 +80,15 @@ settings.mount({
   scrimValueEl: document.querySelector('#setting-scrim-value'),
   engineEl: document.querySelector('#setting-engine'),
   customEl: document.querySelector('#setting-custom'),
+  cityEl: document.querySelector('#setting-city'),
+  cityResultsEl: document.querySelector('#setting-city-results'),
+  cityHintEl: document.querySelector('#setting-city-hint'),
+  placeEl: document.querySelector('#setting-place'),
+  locateEl: document.querySelector('#setting-locate'),
+  unitRowEl: document.querySelector('#setting-unit-row'),
+  unitEl: document.querySelector('#setting-unit'),
   applyBackground,
+  refreshWeather,
 })
 
 document.querySelector('#search-input').focus()
@@ -88,5 +99,7 @@ scheduleNextTick()
 focus.init()
 
 
-// the photo is a progressive upgrade rather than something the first paint waits on.
 applyBackground()
+
+refreshWeather()
+setInterval(() => refreshWeather(), 15 * 60_000)
