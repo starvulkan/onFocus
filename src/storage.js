@@ -3,8 +3,6 @@ One storage API for both of onFocus's targets.
 
 In the extension, chrome.storage.local exists and is asynchronous.
 On the website it doesn't, so we fall back to localStorage, which is synchronous and only stores strings.
-
-Every function here returns a promise, so the rest of the app never has to know which one it's talking to.
 */
 
 const PREFIX = 'onFocus:'
