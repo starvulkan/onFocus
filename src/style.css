@@ -1,531 +1,81 @@
+/* variables for colors in the color palette, spacings, fonts, scrims, etc; to make their access easier throughout the stylesheet */
 :root {
     --bg: #0F1115;
-    --surface: #1D2025;
+    --surface: #1A1D22;
+    --surface-2: #22262C;
     --border: #2C3036;
     --fg: #E9EAEC;
     --muted: #9298A1;
     --accent: #7FD1AE;
     --on-accent: #14161A;
-
-    --neon-teal: #04B79E;
-    --neon-green: #53DC9C;
-    --neon-mint: #7FD1AE;
-
-    --glow-strength: 0.55;
-    --scrim-strength: 0.62;
+    --danger: #FF8A8A;
+    --radius: 14px;
+    --radius-sm: 10px;
 
     --space-1: 0.5rem;
     --space-2: 1rem;
     --space-3: 1.75rem;
 
-    --radius: 14px;
-    --font: "Comfortaa", system-ui, -apple-system, "Segoe UI", sans-serif;
-
     --step-0: 1rem;
     --step-1: 1.25rem;
     --step-3: clamp(3.5rem, 13vw, 6.5rem);
+
+    --font: "Comfortaa", system-ui, sans-serif;
+    --scrim-strength: 0.62;
 }
 
-/* ----------- Base ------------------------------------------------ */
+/* style configs for base */
 
 * { box-sizing: border-box; }
-html, body { height: 100%; }
+
+html, body {
+    height: 100%;
+}
 
 body {
     margin: 0;
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font);
-    -webkit-font-smoothing: antialiased;
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ----------- Aurora ------------------------------------------------ */
+[hidden] {
+    display: none !important;
+}
+
+/* backgrounds! they make your space interesting! */
 
 .aurora {
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    overflow: hidden;
-    opacity: var(--glow-strength);
+    background:
+      radial-gradient(ellipse 60% 50% at 15% 20%,
+        rgb(4 183 158 / 0.75), rgb(4 183 158 / 0.28) 45%, rgb(4 183 158 / 0) 75%),
+      radial-gradient(ellipse 55% 45% at 85% 75%,
+        rgb(83 220 156 / 0.60), rgb(83 220 156 / 0.22) 45%, rgb(83 220 156 / 0) 75%),
+      radial-gradient(ellipse 40% 35% at 70% 15%,
+        rgb(127 209 174 / 0.45), rgb(127 209 174 / 0.15) 50%, rgb(127 209 174 / 0) 80%);
 }
 
-.blob {
-    position:absolute;
-    border-radius: 50%;
-    filter: blur(70px);
-    will-change: transform, opacity;
-}
-
-.blob--1 {
-    width: 62vmax;
-    height: 62vmax;
-    left: -12vmax;
-    top: -10vmax;
-    background: radial-gradient(circle, var(--neon-teal), transparent 68%);
-}
-
-.blob--2 {
-    width: 48vmax;
-    height: 48vmax;
-    left: 6vmax;
-    bottom: -16vmax;
-    background: radial-gradient(circle, var(--neon-green), transparent 66%);
-}
-
-.blob--3 {
-    width: 54vmax;
-    height: 54vmax;
-    right: -10vmax;
-    top: -14vmax;
-    background: radial-gradient(circle, var(--neon-mint), transparent 70%);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .blob--1 { animation: drift-1 37s ease-in-out infinite alternate,
-                          breathe 13s ease-in-out infinite alternate; }
-    .blob--2 { animation: drift-2 43s ease-in-out infinite alternate,
-                          breathe 17s ease-in-out infinite alternate -4s; }
-    .blob--3 { animation: drift-3 53s ease-in-out infinite alternate,
-                          breathe 19s ease-in-out infinite alternate -9s; }
-
-    @keyframes drift-1 {
-        from { transform: translate3d(0, 0, 0) scale(1); }
-        to { transform: translate3d(14vmax, 8vmax, 0) scale(1.18); }
-    }
-    @keyframes drift-2 {
-        from { transform: translate3d(0, 0, 0) scale(1.1); }
-        to { transform: translate3d(22vmax, -12vmax, 0) scale(0.9); }
-    }
-    @keyframes drift-3 {
-        from { transform: translate3d(0, 0, 0) scale(0.95); }
-        to { transform: translate3d(-18vmax, 16vmax, 0) scale(1.22); }
-    }
-    @keyframes breathe {
-        from { opacity: 0.55; }
-        to { opacity: 1; }
-    }
-}
-
-/* ----------- Layout ------------------------------------------------ */
-
-#app {
-    position: relative;
-    height: 100%;
-    padding: var(--space-3);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr auto;
-    gap: var(--space-2);
-}
-
-.zone { display: flex; gap: var(--space-2); align-items: flex-start; }
-.zone--tl { grid-area: 1 / 1; }
-.zone--tr { grid-area: 1 / 2; justify-content: flex-end; }
-.zone--bl { grid-area: 3 / 1; align-items: flex-end; }
-.zone--br { grid-area: 3 / 2; align-items: flex-end; justify-content: flex-end; }
-
-.stage {
-    grid-area: 2 / 1 / 3 / 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-1);
-    text-align: center;
-}
-
-/* ----------- Stage contents ------------------------------------------------ */
-
-.lockup {
-    max-width: min(400px, 70vw);
-    height: auto;
-    margin-bottom: var(--space-3);
-    filter: drop-shadow(0 0 22px color-mix(in srgb, var(--neon-teal) 45%, transparent));
-}
-
-.greeting {
-    margin: 0 0 var(--space-2);
-    font-size: var(--step-1);
-    color: var(--muted);
-    letter-spacing: 0.01em;
-}
-
-.clock {
-    margin: 0;
-    font-size: var(--step-3);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.01em;
-    font-variant-numeric: tabular-nums;
-    text-shadow:
-        0 0 26px color-mix(in srgb, var(--neon-mint) 34%, transparent),
-        0 0 70px color-mix(in srgb, var(--neon-teal) 22%, transparent);
-}
-
-.intent-slot { margin-top: var(--space-3); min-height: 2rem; }
-
-/* ----------- Cards ------------------------------------------------ */
-
-.card {
-    padding: var(--space-2);
-    border: 1px solid color-mix(in srgb, var(--neon-mint) 22%, var(--border));
-    border-radius: var(--radius);
-    background: color-mix(in srgb, var(--surface) 72%, transparent);
-    backdrop-filter: blur(12px);
-    color: var(--muted);
-    font-size: var(--step-0);
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--neon-teal) 8%, transparent),
-                0 8px 30px rgb(0 0 0 / 0.18);
-}
-
-/* ----------- Narrow screens ------------------------------------------------ */
-
-@media (max-width: 640px) {
-    #app {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto auto;
-        padding: var(--space-2);
-    }
-    .zone--tl { grid-area: 1 / 1; }
-    .zone--tr { grid-area: 1 / 1; justify-content: flex-end; }
-    .stage { grid-area: 2 / 1; }
-    .zone--bl { grid-area: 3 / 1; }
-    .zone--br { grid-area: 4 / 1; justify-content: flex-start; }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .stage > * { animation: rise 0.5s ease-out both; }
-    .stage > :nth-child(2) { animation-delay: 0.07s; }
-    .stage > :nth-child(3) { animation-delay: 0.14s; }
-    @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
-}
-
-/* ----------- Focus panel ------------------------------------------------ */
-
-.focus {
-    margin-top: var(--space-3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-2);
-    width: min(30rem, 86vw);
-}
-
-.intent {
-    width: 100%;
-    padding: 0.75rem 1.1rem;
-    font: inherit;
-    font-size: var(--step-1);
-    text-align: center;
-    color: var(--fg);
-    background: color-mix(in srgb, var(--surface) 55%, transparent);
-    backdrop-filter: blur(12px);
-    border: 1px solid color-mix(in srgb, var(--neon-mint) 18%, var(--border));
-    border-radius: 999px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.intent::placeholder { color: var(--muted); }
-
-.intent:focus-visible {
-    border-color: var(--neon-mint);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--neon-teal) 22%, transparent);
-}
-
-.intent:read-only {
-    border-color: transparent;
-    background: transparent;
-    backdrop-filter: none;
-    color: var(--neon-mint);
-}
-
-.controls { display: flex; gap: var(--space-1); }
-
-.btn {
-    font: inherit;
-    font-weight: 700;
-    padding: 0.6rem 1.4rem;
-    border-radius: 999px;
-    cursor: pointer;
-    color: var(--fg);
-    background: color-mix(in srgb, var(--surface) 65%, transparent);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(12px);
-    transition: transform 0.12s, box-shadow 0.2s, background 0.2s;
-}
-
-.btn:hover { transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
-
-.btn:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--neon-teal) 30%, transparent);
-}
-
-.btn--primary {
-  color: var(--on-accent);
-  background: var(--neon-mint);
-  border-color: transparent;
-  box-shadow: 0 0 24px color-mix(in srgb, var(--neon-mint) 35%, transparent);
-}
-
-.btn--primary:hover {
-  box-shadow: 0 0 34px color-mix(in srgb, var(--neon-mint) 55%, transparent);
-}
-
-/*
-A running focus sessions takes over the clock,
-so it should look different from the wall time it replaced! 
-*/
-.clock--session {
-    color: var(--neon-mint);
-    text-shadow:
-        0 0 30px color-mix(in srgb, var(--neon-mint) 55%, transparent),
-        0 0 80px color-mix(in srgb, var(--neon-teal) 35%, transparent);
-}
-
-.stats { white-space: nowrap; }
-
-.is-celebrating .blob { animation-duration: 3s, 2s !important; }
-
-@media (prefers-reduced-motion: reduce) {
-    .btn:hover { transform: none; }
-}
-
-/* ----------- Search ------------------------------------------------ */
-
-.search {
-    position: relative;
-    width: min(34rem, 88vw);
-    margin-bottom: var(--space-4, 3rem);
-    display: flex;
-    align-items: center;
-}
-
-.search__icon {
-    position: absolute;
-    left: 1rem;
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: var(--muted);
-    stroke-width: 2;
-    stroke-linecap: round;
+.photo, .scrim {
+    position: fixed;
+    inset: 0;
     pointer-events: none;
 }
-
-.search__input {
-    width: 100%;
-    padding: 0.7rem 1.1rem 0.7rem 2.9rem;
-    font: inherit;
-    font-size: var(--step-0);
-    text-align: left;
-    color: var(--fg);
-    background: color-mix(in srgb, var(--surface) 40%, transparent);
-    backdrop-filter: blur(14px);
-    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
-    border-radius: 12px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-}
-
-.search__input::placeholder { color: var(--muted); }
-.search__input::-webkit-search-cancel-button { filter: grayscale(1) opacity(0.5); }
-
-.search__input:focus-visible {
-    background: color-mix(in srgb, var(--surface) 70%, transparent);
-    border-color: color-mix(in srgb, var(--neon-mint) 45%, transparent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--neon-teal) 18%, transparent);
-}
-
-.search:focus-within .search__icon { stroke: var(--neon-mint); }
-
-/* ---- Session length -------------------------------------------------- */
-
-.duration[hidden] { display: none; }
-.stats[hidden],
-.photo[hidden],
-.scrim[hidden],
-.aurora[hidden],
-.photo-credit[hidden],
-.sheet__row[hidden] { display: none; }
-
-.duration {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.25rem;
-    padding: 0.6rem 0.9rem;
-    border-radius: 999px;
-    color: var(--muted);
-    background: color-mix(in srgb, var(--surface) 65%, transparent);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(12px);
-}
-
-.duration__input {
-    width: 2.6rem;
-    font: inherit;
-    font-weight: 700;
-    text-align: right;
-    color: var(--fg);
-    background: none;
-    border: none;
-    outline: none;
-    -moz-appearance: textfield;
-}
-
-.duration__input::-webkit-outer-spin-button,
-.duration__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-.duration:focus-within {
-    border-color: color-mix(in srgb, var(--neon-mint) 45%, transparent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--neon-teal) 18%, transparent);
-}
-
-.duration__unit { font-size: 0.85em; }
-
-/* ---- History --------------------------------------------------------- */
-
-.btn--ghost {
-    padding: 0.45rem 1rem;
-    font-size: var(--step-0);
-    color: var(--muted);
-    background: color-mix(in srgb, var(--surface) 45%, transparent);
-}
-
-.btn--ghost:hover { color: var(--fg); }
-
-.history {
-    width: min(34rem, 92vw);
-    max-height: min(70vh, 42rem);
-    padding: 0;
-    color: var(--fg);
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
-    backdrop-filter: blur(20px);
-    border: 1px solid color-mix(in srgb, var(--neon-mint) 20%, var(--border));
-    border-radius: var(--radius);
-    box-shadow: 0 24px 70px rgb(0 0 0 / 0.55);
-    overflow: hidden;
-}
-
-.history::backdrop { background: rgb(0 0 0 / 0.55); backdrop-filter: blur(3px); }
-
-.history__head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-2) 0.75rem;
-    border-bottom: 1px solid var(--border);
-}
-
-.history__title { margin: 0; font-size: var(--step-1); font-weight: 700; }
-
-.history__summary {
-    margin: 0;
-    padding: 0.75rem var(--space-2);
-    color: var(--neon-mint);
-    font-size: var(--step-0);
-}
-
-.history__list {
-    max-height: 46vh;
-    overflow-y: auto;
-    padding: 0 var(--space-2) var(--space-2);
-}
-
-.history__day {
-    display: flex;
-    justify-content: space-between;
-    margin-top: var(--space-2);
-    padding-bottom: 0.3rem;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.85rem;
-    color: var(--muted);
-}
-
-.history__day-total { color: var(--fg); font-weight: 700; }
-
-.history__row {
-    display: grid;
-    grid-template-columns: 4.6rem 1fr auto 1.55rem;
-    gap: var(--space-1);
-    align-items: baseline;
-    padding: 0.45rem 0;
-    font-size: var(--step-0);
-}
-
-.history__time { color: var(--muted); font-size: 0.85rem; }
-.history__intent { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.history__mins { color: var(--neon-mint); font-weight: 700; }
-
-.history__delete {
-    width: 1.55rem;
-    height: 1.55rem;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: none;
-    color: var(--muted);
-    font-family: var(--font);
-    font-size: 1.05rem;
-    line-height: 1;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 120ms ease, background 120ms ease, color 120ms ease;
-}
-
-.history__row:hover .history__delete,
-.history__row:focus-within .history__delete { opacity: 1; }
-
-.history__delete:hover,
-.history__delete:focus-visible {
-    opacity: 1;
-    background: color-mix(in srgb, #FF6B6B 22%, transparent);
-    color: #FF9B9B;
-}
-
-@media (hover: none) {
-    .history__delete { opacity: 1; }
-}
-
-.history__undo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2);
-    margin: 0;
-    padding: 0.6rem var(--space-2);
-    border-top: 1px solid var(--border);
-    background: color-mix(in srgb, var(--neon-mint) 8%, transparent);
-    color: var(--muted);
-    font-size: 0.85rem;
-}
-
-.history__undo[hidden] { display: none; }
-
-/* ----------- Photo backdrop ------------------------------------------------ */
 
 .photo {
-    position: fixed;
-    inset: 0;
     z-index: -3;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    pointer-events: none;
+    background: center / cover no-repeat;
 }
 
-/* photos be random, so they can really mess up the text on-screen. so it needs a floor! */
 .scrim {
-    position: fixed;
-    inset: 0;
     z-index: -2;
-    pointer-events: none;
-    background:
+
+    background: /* creates a floor so the randomness of the nasa apod image doesnt mess up the visibility of the other elements */
         radial-gradient(
         ellipse 70% 55% at 50% 48%,
         rgb(0 0 0 / calc(var(--scrim-strength) * 0.95)) 0%,
@@ -541,46 +91,398 @@ so it should look different from the wall time it replaced!
       );
 }
 
+/* the actual app layout itself! */
+
+#app {
+    height: 100%;
+    padding: var(--space-3);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--space-2);
+}
+
+.zone {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+}
+
+.zone--tl {
+    grid-area: 1 / 1;
+}
+
+.zone--tr {
+    grid-area: 1 / 2;
+    justify-content: flex-end;
+}
+
+.zone--bl {
+    grid-area: 3 / 1;
+    align-items: flex-end;
+}
+
+.zone--br {
+    grid-area: 3 / 2;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.stage {
+    grid-area: 2 / 1 / 3 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    text-align: center;
+}
+
+/* the stack of elements at the center of the new tab (search, logo lockup, greeter, and clock!). */
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    width: min(34rem, 100%);
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    margin-bottom: var(--space-2);
+}
+
+.search:focus-within {
+    border-color: var(--accent);
+}
+
+.search__icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: none;
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.search__input {
+    flex: 1;
+    border: none;
+    background: none;
+    color: var(--fg);
+    font: inherit;
+    outline: none;
+}
+
+.lockup {
+    width: min(400px, 70vw);
+    height: auto;
+}
+
+.greeting {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--step-1);
+}
+
+.clock {
+    margin: 0;
+    font-size: var(--step-3);
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.clock--session, .is-celebrating .clock {
+    color: var(--accent);
+}
+
+/* focus panel! here's where you focus hehe */
+
+.focus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+}
+
+.intent {
+    width: min(28rem, 90vw);
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--fg);
+    font: inherit;
+    text-align: center;
+    outline: none;
+}
+
+.intent:focus {
+    border-color: var(--accent);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+}
+
+.duration__input {
+    width: 3ch;
+    border: none;
+    background: none;
+    color: var(--fg);
+    font: inherit;
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+.duration__input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+.duration__unit {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* buttons you click and cards you see and read after clicking a button */
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--fg);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn:hover {
+    border-color: var(--accent);
+}
+
+.btn:focus-visible, .field:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.btn--primary {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: transparent;
+}
+
+.btn--ghost {
+    background: var(--accent);
+    color: var(--on-accent);
+}
+
+.card {
+    margin: 0;
+    padding: var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--muted);
+}
+
+.stats {
+    white-space: nowrap;
+}
+
+/* things that go in the corners (weather, photo credits)! */
+
+.weather {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.9rem;
+}
+
+.weather__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--accent);
+    stroke: var(--on-accent);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.weather__temp {
+    font-weight: 700;
+}
+
+.weather__label {
+    color: var(--muted);
+}
+
 .photo-credit {
     margin: 0;
     max-width: 40ch;
     text-align: right;
     font-size: 0.8rem;
-    line-height: 1.35;
-    color: color-mix(in srgb, var(--fg) 72%, transparent);
-    text-shadow: 0 1px 3px rgb(0 0 0 / 0.6);
+    color: var(--fg);
 }
 
-.photo-credit__title { font-weight: 700; }
-.photo-credit__by { color: var(--muted); font-size: 0.75rem; }
+.photo-credit__title {
+    font-weight: 700;
+    color: var(--muted);
+}
 
-/* ----------- Settings sheet ------------------------------------------------ */
+/* history, save your time from dying! */
 
-.sheet {
-    width: min(28rem, 92vw);
-    padding: var(--space-3);
-    border: 1px solid color-mix(in srgb, var(--neon-mint) 22%, var(--border));
+.history, .sheet {
+    padding: 0;
+    border: 1px solid var(--border);
     border-radius: var(--radius);
-    background: color-mix(in srgb, var(--surface) 94%, transparent);
-    backdrop-filter: blur(16px);
+    background: var(--surface);
     color: var(--fg);
     font-family: var(--font);
 }
 
-.sheet::backdrop { background: rgb(0 0 0 / 0.55); backdrop-filter: blur(3px); }
+.history::backdrop, .sheet::backdrop {
+    background: rgb(0 0 0 / 0.6);
+}
 
-.sheet__head {
+.history__head, .sheet__head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-2);
+}
+
+.history__title, .sheet__title {
+    margin: 0;
+    font-size: var(--step-1);
+    font-weight: 700;
+}
+
+.history {
+    width: min(34rem, 92vw);
+    max-height: min(70vh, 42rem);
+    overflow: hidden;
+}
+
+.history__head {
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--border)
+}
+
+.history__summary {
+    margin: 0;
+    padding: 0.75rem var(--space-2);
+    color: var(--accent);
+}
+
+.history__list {
+    max-height: 46vh;
+    overflow-y: auto;
+    padding: 0 var(--space-2) var(--space-2);
+}
+
+.history__day {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-2);
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+}
+
+.history__day-total {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.history__row {
+    display: grid;
+    grid-template-columns: 4.6rem 1fr auto 1.55rem;
+    gap: var(--space-1);
+    align-items: center;
+    padding: 0.45rem 0;
+}
+
+.history__time {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.history__intent {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history__mins {
+    color: var(--fg);
+    font-weight: 700;
+}
+
+.history__delete {
+    width: 1.55rem;
+    height: 1.55rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: var(--muted);
+    font-size: 1.05rem;
+    cursor: pointer;
+    opacity: 0.4;
+}
+
+.history__delete:hover, .history__delete:focus-visible {
+    opacity: 1;
+    color: var(--danger);
+}
+
+.history__undo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0.6rem var(--space-2);
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* settings panel to set your settings (im so tired bro) */
+
+.sheet {
+    width: min(28rem, 92vw);
+    padding: var(--space-3);
+}
+
+.sheet__head {
     margin-bottom: var(--space-3);
 }
 
-.sheet__title { margin: 0; font-size: var(--step-1); font-weight: 700; }
+.sheet__row {
+    margin-bottom: var(--space-3);
+}
 
-.sheet__row { margin-bottom: var(--space-3); }
-.sheet__row:last-child { margin-bottom: 0; }
+.sheet__row:last-child {
+    margin-bottom: 0;
+}
 
 .sheet__label {
     display: block;
@@ -589,92 +491,44 @@ so it should look different from the wall time it replaced!
     font-size: 0.85rem;
 }
 
-.sheet__value { color: var(--accent); font-weight: 700; }
+.sheet__value, .sheet__current {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.sheet__current {
+    margin: 0 0 var(--space-1);
+    font-size: 0.85rem;
+}
 
 .sheet__hint {
     margin: var(--space-1) 0 0;
     color: var(--muted);
     font-size: 0.75rem;
-    line-height: 1.4;
 }
 
-.sheet_hint code {
+.sheet__hint code {
     padding: 0.1em 0.35em;
     border-radius: 5px;
-    background: color-mix(in srgb, var(--neon-mint) 14%, transparent);
-    font-size: 0.95em;
+    background: var(--surface-2);
 }
 
-.field {
-    width: 100%;
-    padding: 0.6rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: color-mix(in srgb, var(--bg) 70%, transparent);
-    color: var(--fg);
-    font-family: var(--font);
-    font-size: var(--step-0);
-}
-
-.field:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--neon-mint) 60%, transparent);
-    outline-offset: 2px;
-}
-
-.field[type="range"] {
-    padding: 0;
-    border: none;
-    background: none;
-    accent-color: var(--accent);
-    cursor: pointer;
-}
-/* ----------- Weather ------------------------------------------------ */
-
-.weather {
+.sheet__inline {
     display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    color: color-mix(in srgb, var(--fg) 80%, transparent);
-    font-size: 0.9rem;
-    text-shadow: 0 1px 3px rgb(0 0 0 / 0.55);
+    gap: var(--space-1);
 }
 
-.weather[hidden] { display: none; }
-
-.weather__icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    fill: none;
-    stroke: var(--neon-mint);
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+.sheet__inline .field {
+    flex: 1;
+    min-width: 0;
 }
-
-.weather__temp { font-weight: 700; color: var(--fg); }
-.weather__label { color: var(--muted); }
-
-.sheet__inline { display: flex; gap: var(--space-1); align-items: stretch; }
-.sheet__inline .field { flex: 1; min-width: 0; }
-.sheet__inline .btn { white-space: nowrap; }
-
-.sheet__current {
-    margin: 0 0 var(--space-1);
-    color: var(--accent);
-    font-size: 0.85rem;
-    font-weight: 700;
-}
-
-.sheet__current[hidden] { display: none; }
 
 .sheet__results {
     margin-top: var(--space-1);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
 }
-
-.sheet__results[hidden] { display: none; }
 
 .sheet__result {
     display: block;
@@ -684,18 +538,33 @@ so it should look different from the wall time it replaced!
     border-bottom: 1px solid var(--border);
     background: none;
     color: var(--fg);
-    font-family: var(--font);
+    font: inherit;
     font-size: 0.85rem;
     text-align: left;
     cursor: pointer;
 }
 
-.sheet__result:last-child { border-bottom: none; }
-
-.sheet__result:hover,
-.sheet__result:focus-visible {
-    background: color-mix(in srgb, var(--neon-mint) 14%, transparent);
-    outline: none;
+.sheet__result:last-child {
+    border-bottom: none;
 }
 
-.sheet__hint[hidden] { display: none; }
+.sheet__result:hover {
+    background: var(--surface-2);
+}
+
+.field {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--fg);
+    font: inherit;
+}
+
+.field[type="range"] {
+    padding: 0;
+    border: none;
+    background: none;
+    accent-color: var(--accent);
+}

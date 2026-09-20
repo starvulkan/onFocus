@@ -10,11 +10,7 @@
     <div class="photo" id="photo" aria-hidden="true" hidden></div>
     <div class="scrim" id="scrim" aria-hidden="true" hidden></div>
 
-    <div class="aurora" id="aurora" aria-hidden="true">
-      <span class="blob blob--1"></span>
-      <span class="blob blob--2"></span>
-      <span class="blob blob--3"></span>
-    </div>
+    <div class="aurora" id="aurora" aria-hidden="true"></div>
 
     <div id="app">
       <div class="zone zone--tl" id="zone-tl">
@@ -25,6 +21,11 @@
       </div>
 
       <main class="stage">
+        <img class="lockup" src="./lockup-white.png" alt="onFocus" width="400" />
+
+        <br>
+        <br>
+
         <form class="search" id="search" role="search">
           <svg class="search__icon" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="11" cy="11" r="7" />
@@ -34,13 +35,14 @@
             class="search__input"
             id="search-input"
             type="search"
-            placeholder="Search the web"
+            placeholder="Surf the waves!"
             autocomplete="off"
-            aria-label="Search the web"
+            aria-label="Surf the waves!"
           />
         </form>
 
-        <img class="lockup" src="./lockup-white.png" alt="onFocus" width="400" />
+        <br>
+
         <p class="greeting" id="greeting"></p>
         <p class="clock" id="clock">--:--</p>
 
@@ -68,6 +70,9 @@
               />
               <span class="duration__unit">min</span>
             </label>
+
+            <br>
+
             <button class="btn btn--primary" id="btn-primary" type="button">Start focus</button>
             <button class="btn" id="btn-secondary" type="button" hidden>Give up</button>
           </div>
@@ -165,7 +170,7 @@
           autocomplete="off"
           spellcheck="false"
         />
-        <p class="sheet__hint">Must contain <code>%s</code> where the query goes. Else no searching for u...</p>
+        <p class="sheet__hint">Must contain <code>%s</code> where the query goes. Else no web surfing for u! muehehehe</p>
       </div>
     </dialog>
 
