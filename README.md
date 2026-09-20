@@ -14,7 +14,7 @@
   <img src="docs/screenshots/home-apod.png" alt="onFocus as a new tab page, with NASA's picture of the day as the background" width="820">
 </p>
 
-## The idea
+## About!
 
 Most new tab pages today are (usually) very distracting and affect our attention span by overloading us with options on what to do. onFocus aims to help you keep your mind where your work is.
 
@@ -37,7 +37,7 @@ extension that takes over your new tab. Up to you to choose your focusing experi
 | <img src="docs/screenshots/settings-aurora.png" width="410" alt="Settings on aurora mode"> | <img src="docs/screenshots/settings-apod.png" width="410" alt="Settings on NASA APOD mode"> |
 | **Settings**: pick your background and your search engine, or paste a custom search URL. | **On NASA mode** a dimming slider appears, because some of those photos are very bright. |
 
-## Status
+## Status!
 
 Currently working:
 
@@ -66,7 +66,7 @@ npm run dev
 
 A free key takes about thirty seconds to get at [api.nasa.gov](https://api.nasa.gov/). Come on, don't be lazy!
 
-## Install it as an extension
+## Install it as an extension!
 
 ```bash
 npm run build
