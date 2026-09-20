@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/home-apod.png" alt="onFocus as a new tab page, with NASA's picture of the day as the background" width="820">
+  <img src="docs/screenshots/main.png" alt="onFocus demo" width="820">
 </p>
 
 ## About!
@@ -31,11 +31,11 @@ extension that takes over your new tab. Up to you to choose your focusing experi
 |  |  |
 |:--:|:--:|
 | <img src="docs/screenshots/home-aurora.png" width="410" alt="The aurora background"> | <img src="docs/screenshots/session-running.png" width="410" alt="A focus session counting down"> |
-| **Aurora**: three blobs drifting on their own timings, the default background when you first open it. | **A session running**: the clock becomes the countdown, and what you wrote stays under it the whole time. |
-| <img src="docs/screenshots/history.png" width="410" alt="The focus history panel"> | <img src="docs/screenshots/stats-apod.png" width="410" alt="Today's total in the corner"> |
+| **Aurora**: onFocus's default wallpaper. Three aurora-looking blobs! | **A session running**: the clock becomes the countdown, and what you wrote stays under it the whole time. |
+| <img src="docs/screenshots/history.png" width="410" alt="The focus history panel"> | <img src="docs/screenshots/stats-aurora.png" width="410" alt="Today's total in the corner"> |
 | **History**: every finished session, grouped by day, with what you were working on. | **Today's total**: sits quietly in the corner and only shows up once you've actually done something. |
-| <img src="docs/screenshots/settings-aurora.png" width="410" alt="Settings on aurora mode"> | <img src="docs/screenshots/settings-apod.png" width="410" alt="Settings on NASA APOD mode"> |
-| **Settings**: pick your background and your search engine, or paste a custom search URL. | **On NASA mode** a dimming slider appears, because some of those photos are very bright. |
+| <img src="docs/screenshots/home-apod.png" width="410" alt="onFocus with NASA APOD wallpaper"> | <img src="docs/screenshots/settings-apod.png" width="410" alt="Settings on NASA APOD mode"> |
+| **NASA APOD**: use NASA's Astronomy Picture of the Day as your wallpaper! | **On NASA APOD mode** a dimming slider appears, because some of those photos are very bright. |
 
 ## Status!
 
